@@ -20,7 +20,6 @@ import android.content.Context;
 import android.util.Log;
 import com.android.server.SystemService;
 import android.os.SystemProperties;
-import java.io.File;
 
 public final class EthernetService extends SystemService {
 
@@ -31,8 +30,7 @@ public final class EthernetService extends SystemService {
     public EthernetService(Context context) {
         super(context);
         mImpl = new EthernetServiceImpl(context);
-        mDisableInstaboot = SystemProperties.getBoolean("config.disable_instaboot", true) ||
-                                !(new File("/system/bin/instabootserver").exists());
+        mDisableInstaboot = SystemProperties.getBoolean("config.disable_instaboot", true);
     }
 
     @Override
