@@ -49,6 +49,7 @@ import com.android.server.net.BaseNetworkObserver;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
+import android.os.SystemProperties;
 
 /**
  * Manages connectivity for an Ethernet interface.
@@ -194,12 +195,17 @@ class EthernetNetworkFactory {
     private boolean maybeTrackInterface(String iface) {
         // If we don't already have an interface, and if this interface matches
         // our regex, start tracking it.
-        if (!iface.matches(mIfaceMatch) || isTrackingInterface())
+        if (isTrackingInterface())
             return false;
-
-        Log.d(TAG, "Started tracking interface " + iface);
-        setInterfaceUp(iface);
-        return true;
+        String[] mInterfaces = mIfaceMatch.split(" ");
+        for (String mIface: mInterfaces) {
+            if (iface.matches(mIface)) {
+                Log.d(TAG, "Started tracking interface " + iface);
+                setInterfaceUp(iface);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void stopTrackingInterface(String iface) {
@@ -355,9 +361,8 @@ class EthernetNetworkFactory {
         mNMService = INetworkManagementService.Stub.asInterface(b);
         mEthernetManager = (EthernetManager) context.getSystemService(Context.ETHERNET_SERVICE);
 
-        // Interface match regex.
-        mIfaceMatch = context.getResources().getString(
-                com.android.internal.R.string.config_ethernet_iface_regex);
+        mIfaceMatch = SystemProperties.get("net.eth.iface", "eth0");
+        Log.i(TAG, "mIfaceMatch = " + mIfaceMatch);
 
         // Create and register our NetworkFactory.
         mFactory = new LocalNetworkFactory(NETWORK_TYPE, context, target.getLooper());
