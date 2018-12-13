@@ -287,6 +287,10 @@ public class EthernetNetworkFactory extends NetworkFactory {
                 if (DBG) Log.d(TAG, "IpClient already started");
                 return;
             }
+
+            if(mLinkUp == false)
+                return;
+
             if (DBG) {
                 Log.d(TAG, String.format("starting IpClient(%s): mNetworkInfo=%s", name,
                         mNetworkInfo));
