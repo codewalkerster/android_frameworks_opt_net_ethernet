@@ -71,7 +71,7 @@ import java.util.ArrayList;
 class EthernetNetworkFactory {
     private static final String NETWORK_TYPE = "Ethernet";
     private static final String TAG = "EthernetNetworkFactory";
-    private static final int NETWORK_SCORE = 70;
+    private static final int NETWORK_SCORE = 102;
     private static final boolean DBG = true;
 
     /** Tracks interface changes. Called from NetworkManagementService. */
