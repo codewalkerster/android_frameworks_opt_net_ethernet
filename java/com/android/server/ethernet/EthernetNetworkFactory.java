@@ -35,6 +35,7 @@ import android.net.ip.IpClient;
 import android.net.ip.IpClient.ProvisioningConfiguration;
 import android.net.util.InterfaceParams;
 import android.os.Handler;
+import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,7 +54,7 @@ public class EthernetNetworkFactory extends NetworkFactory {
     private final static String TAG = EthernetNetworkFactory.class.getSimpleName();
     final static boolean DBG = true;
 
-    private final static int NETWORK_SCORE = 102;
+    private static int NETWORK_SCORE = 102;
     private static final String NETWORK_TYPE = "Ethernet";
 
     private final ConcurrentHashMap<String, NetworkInterfaceState> mTrackingInterfaces =
@@ -66,6 +67,9 @@ public class EthernetNetworkFactory extends NetworkFactory {
 
         mHandler = handler;
         mContext = context;
+
+        if(SystemProperties.getBoolean("wifi_priority_high", true))
+            NETWORK_SCORE = 50;
 
         setScoreFilter(NETWORK_SCORE);
     }
