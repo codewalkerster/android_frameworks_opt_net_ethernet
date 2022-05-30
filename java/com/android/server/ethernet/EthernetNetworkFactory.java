@@ -395,8 +395,10 @@ public class EthernetNetworkFactory extends NetworkFactory {
             sTransports.put(NetworkCapabilities.TRANSPORT_WIFI_AWARE,
                     new TransportInfo(ConnectivityManager.TYPE_NONE, 1));
             // EthernetNetworkFactory.NETWORK_SCORE
+            // make the score lower than the score of wifi.
+            // It makes priority of wifi higher than ethernet.
             sTransports.put(NetworkCapabilities.TRANSPORT_ETHERNET,
-                    new TransportInfo(ConnectivityManager.TYPE_ETHERNET, 70));
+                    new TransportInfo(ConnectivityManager.TYPE_ETHERNET, /*70*/55));
             // BluetoothTetheringNetworkFactory.NETWORK_SCORE
             sTransports.put(NetworkCapabilities.TRANSPORT_BLUETOOTH,
                     new TransportInfo(ConnectivityManager.TYPE_BLUETOOTH, 69));
