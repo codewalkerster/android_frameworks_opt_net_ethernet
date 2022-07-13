@@ -68,7 +68,7 @@ public class EthernetNetworkFactory extends NetworkFactory {
         mHandler = handler;
         mContext = context;
 
-        if(SystemProperties.getBoolean("wifi_priority_high", true))
+        if(SystemProperties.getBoolean("persist.wifi_priority_high", true))
             NETWORK_SCORE = 50;
 
         setScoreFilter(NETWORK_SCORE);
